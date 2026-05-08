@@ -1,0 +1,33 @@
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/db";
+import { workouts, exercises } from "@/db/schema";
+import { and, eq, gte, lt, count, desc } from "drizzle-orm";
+
+export async function getWorkoutsByDate(date: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const dayStart = new Date(`${date}T00:00:00.000Z`);
+  const dayEnd = new Date(`${date}T00:00:00.000Z`);
+  dayEnd.setUTCDate(dayEnd.getUTCDate() + 1);
+
+  return db
+    .select({
+      id: workouts.id,
+      name: workouts.name,
+      startedAt: workouts.startedAt,
+      endedAt: workouts.endedAt,
+      exerciseCount: count(exercises.id),
+    })
+    .from(workouts)
+    .leftJoin(exercises, eq(exercises.workoutId, workouts.id))
+    .where(
+      and(
+        eq(workouts.userId, userId),
+        gte(workouts.startedAt, dayStart),
+        lt(workouts.startedAt, dayEnd)
+      )
+    )
+    .groupBy(workouts.id)
+    .orderBy(desc(workouts.startedAt));
+}
