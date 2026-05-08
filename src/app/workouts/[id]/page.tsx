@@ -46,35 +46,35 @@ export default async function WorkoutPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8">
-      <Link href="/" className="mb-6 inline-block text-sm text-zinc-400 hover:text-white">
+      <Link href="/dashboard" className="mb-6 inline-block text-sm text-muted-foreground hover:text-foreground">
         ← Back
       </Link>
 
-      <h1 className="mb-1 text-2xl font-bold text-white">
+      <h1 className="mb-1 text-2xl font-bold text-foreground">
         {workout.name ?? "Untitled Workout"}
       </h1>
-      <p className="mb-8 text-sm text-zinc-400">
+      <p className="mb-8 text-sm text-muted-foreground">
         {formatDate(workout.startedAt)}
         {duration != null && <span> · {duration} min</span>}
       </p>
 
       {workout.exercises.length === 0 ? (
-        <p className="text-zinc-400">No exercises recorded.</p>
+        <p className="text-muted-foreground">No exercises recorded.</p>
       ) : (
         <div className="flex flex-col gap-6">
           {workout.exercises.map((exercise) => (
             <div
               key={exercise.id}
-              className="rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-4"
+              className="rounded-lg border border px-5 py-4"
             >
-              <h2 className="mb-3 font-semibold text-white">{exercise.name}</h2>
+              <h2 className="mb-3 font-semibold text-foreground">{exercise.name}</h2>
 
               {exercise.sets.length === 0 ? (
-                <p className="text-sm text-zinc-400">No sets recorded.</p>
+                <p className="text-sm text-muted-foreground">No sets recorded.</p>
               ) : (
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-zinc-400">
+                    <tr className="text-left text-muted-foreground">
                       <th className="pb-2 font-medium">Set</th>
                       <th className="pb-2 font-medium">Weight (kg)</th>
                       <th className="pb-2 font-medium">Reps</th>
@@ -83,11 +83,11 @@ export default async function WorkoutPage({
                   </thead>
                   <tbody>
                     {exercise.sets.map((set) => (
-                      <tr key={set.id} className="border-t border-zinc-800">
-                        <td className="py-2 text-zinc-300">{set.setNumber}</td>
-                        <td className="py-2 text-zinc-300">{set.weightKg ?? "—"}</td>
-                        <td className="py-2 text-zinc-300">{set.reps ?? "—"}</td>
-                        <td className="py-2 text-zinc-300">{set.rpe ?? "—"}</td>
+                      <tr key={set.id} className="border-t">
+                        <td className="py-2 text-foreground">{set.setNumber}</td>
+                        <td className="py-2 text-foreground">{set.weightKg ?? "—"}</td>
+                        <td className="py-2 text-foreground">{set.reps ?? "—"}</td>
+                        <td className="py-2 text-foreground">{set.rpe ?? "—"}</td>
                       </tr>
                     ))}
                   </tbody>

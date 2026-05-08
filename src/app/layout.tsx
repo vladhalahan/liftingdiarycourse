@@ -33,10 +33,7 @@ export default function RootLayout({
         <ClerkProvider>
           <header className="flex items-center justify-between px-6 py-4">
             <nav className="flex items-center gap-6">
-              <Link href="/" className="text-sm text-zinc-400 hover:text-white transition-colors">
-                Workouts
-              </Link>
-              <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-white transition-colors">
+              <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Dashboard
               </Link>
             </nav>
