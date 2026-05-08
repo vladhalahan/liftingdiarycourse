@@ -25,25 +25,27 @@ export default async function DashboardPage({
     <main className="mx-auto w-full max-w-5xl px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold">Workout Dashboard</h1>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-[30%_70%] gap-8">
         <div>
           <h2 className="mb-4 text-lg font-semibold">Select Date</h2>
-          <Card className="p-4">
+          <Card className="p-4 self-start">
             <DatePicker date={date} />
           </Card>
         </div>
 
         <div>
-          <h2 className="mb-4 text-lg font-semibold">
-            Workouts for {format(date, "do MMM yyyy")}
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold">
+              Workouts for {format(date, "do MMM yyyy")}
+            </h2>
+            <Button asChild size="sm">
+              <Link href="/dashboard/workout/new">Log New Workout</Link>
+            </Button>
+          </div>
           <Card className="p-6">
             {workouts.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-4 py-12">
                 <p className="text-muted-foreground">No workouts logged for this date</p>
-                <Button asChild>
-                  <Link href="/workouts/new">Log New Workout</Link>
-                </Button>
               </div>
             ) : (
               <div className="flex flex-col gap-3">
