@@ -10,18 +10,28 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createWorkoutAction } from "./actions";
+import { updateWorkoutAction } from "./actions";
 
 interface Props {
+  workout: {
+    id: string;
+    name: string | null;
+    startedAt: Date;
+    endedAt: Date | null;
+  };
   onSuccess?: () => void;
 }
 
-export function NewWorkoutForm({ onSuccess }: Props) {
+export function EditWorkoutForm({ workout, onSuccess }: Props) {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [date, setDate] = useState<Date>(new Date());
-  const [startTime, setStartTime] = useState("09:00");
-  const [endTime, setEndTime] = useState("");
+  const [name, setName] = useState(workout.name ?? "");
+  const [date, setDate] = useState<Date>(workout.startedAt);
+  const [startTime, setStartTime] = useState(
+    format(workout.startedAt, "HH:mm")
+  );
+  const [endTime, setEndTime] = useState(
+    workout.endedAt ? format(workout.endedAt, "HH:mm") : ""
+  );
   const [pending, setPending] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -39,7 +49,7 @@ export function NewWorkoutForm({ onSuccess }: Props) {
       endedAt.setHours(endHours, endMinutes, 0, 0);
     }
 
-    await createWorkoutAction({ name: name || undefined, startedAt, endedAt });
+    await updateWorkoutAction({ id: workout.id, name: name || undefined, startedAt, endedAt });
     if (onSuccess) {
       onSuccess();
     } else {
@@ -105,7 +115,7 @@ export function NewWorkoutForm({ onSuccess }: Props) {
           </div>
 
           <Button type="submit" disabled={pending}>
-            {pending ? "Creating..." : "Create workout"}
+            {pending ? "Saving..." : "Save changes"}
           </Button>
         </form>
   );

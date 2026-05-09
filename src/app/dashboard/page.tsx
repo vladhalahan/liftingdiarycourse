@@ -55,34 +55,43 @@ export default async function DashboardPage({
                       ? getDuration(workout.startedAt, workout.endedAt)
                       : null;
                   return (
-                    <Link
+                    <div
                       key={workout.id}
-                      href={`/workouts/${workout.id}`}
-                      className="block rounded-lg border px-5 py-4 transition-colors hover:bg-muted"
+                      className="flex items-center rounded-lg border transition-colors hover:bg-muted"
                     >
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="font-semibold">
-                          {workout.name ?? "Untitled"}
-                        </span>
-                        {duration !== null && (
-                          <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <Clock className="h-3.5 w-3.5" />
-                            {duration} min
+                      <Link
+                        href={`/workouts/${workout.id}`}
+                        className="flex-1 px-5 py-4"
+                      >
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="font-semibold">
+                            {workout.name ?? "Untitled"}
                           </span>
-                        )}
+                          {duration !== null && (
+                            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+                              <Clock className="h-3.5 w-3.5" />
+                              {duration} min
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <span>
+                            {format(workout.startedAt, "HH:mm")}
+                            {workout.endedAt &&
+                              ` – ${format(workout.endedAt, "HH:mm")}`}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Dumbbell className="h-3.5 w-3.5" />
+                            {workout.exerciseCount} exercises
+                          </span>
+                        </div>
+                      </Link>
+                      <div className="pr-4">
+                        <Button asChild size="sm" variant="outline">
+                          <Link href={`/dashboard/workout/${workout.id}`}>Edit</Link>
+                        </Button>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span>
-                          {format(workout.startedAt, "HH:mm")}
-                          {workout.endedAt &&
-                            ` – ${format(workout.endedAt, "HH:mm")}`}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Dumbbell className="h-3.5 w-3.5" />
-                          {workout.exerciseCount} exercises
-                        </span>
-                      </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>
