@@ -4,6 +4,7 @@ import { workouts, sets } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
@@ -46,9 +47,14 @@ export default async function WorkoutPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8">
-      <Link href="/dashboard" className="mb-6 inline-block text-sm text-muted-foreground hover:text-foreground">
-        ← Back
-      </Link>
+      <div className="mb-6 flex items-center justify-between">
+        <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
+          ← Back
+        </Link>
+        <Button asChild size="sm" variant="outline">
+          <Link href={`/dashboard/workout/${workout.id}`}>Edit</Link>
+        </Button>
+      </div>
 
       <h1 className="mb-1 text-2xl font-bold text-foreground">
         {workout.name ?? "Untitled Workout"}

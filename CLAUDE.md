@@ -47,8 +47,19 @@ All database query and mutation helpers live in `src/data/`. Server Actions are 
 - Actions must use **typed parameters** (no `FormData`) and validate all inputs with **Zod** before calling helpers
 - Never call Drizzle directly inside a Server Action
 
+### Server Components (`docs/server-components.md`)
+- Page components must be `async`
+- `params` and `searchParams` are **Promises** in Next.js 15 — always `await` them before accessing properties
+- Use `notFound()` from `next/navigation` for missing resources
+
 ### Auth (`docs/auth.md`)
 - Use **Clerk exclusively** — no custom auth, NextAuth, or JWT logic
 - Retrieve `userId` server-side via `auth()` from `@clerk/nextjs/server` inside data helpers
 - Route protection is handled by `middleware.ts` — do not add manual redirect logic in pages
 - Use Clerk's pre-built components (`<SignIn />`, `<SignUp />`, `<UserButton />`) for all auth UI
+
+### Routing (`docs/routing.md`)
+- All authenticated app pages must live under `/dashboard` — public routes are `/`, `/sign-in`, `/sign-up`
+- Route protection is handled exclusively by `middleware.ts` — never add manual redirects in pages
+- Use Next.js `<Link>` for all internal navigation; use `useRouter` from `next/navigation` for programmatic navigation
+- Colocate **Server Actions** in `actions.ts` files next to the routes that use them
